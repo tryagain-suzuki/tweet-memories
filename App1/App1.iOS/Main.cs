@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace App1.iOS
+namespace TweetMemories.iOS
 {
     public class Application
     {

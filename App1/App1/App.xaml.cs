@@ -1,10 +1,10 @@
-﻿using App1.Services;
-using App1.Views;
+﻿using TweetMemories.Services;
+using TweetMemories.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace App1
+namespace TweetMemories
 {
     public partial class App : Application
     {

@@ -1,10 +1,10 @@
-﻿using App1.ViewModels;
-using App1.Views;
+﻿using TweetMemories.ViewModels;
+using TweetMemories.Views;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace App1
+namespace TweetMemories
 {
     public partial class AppShell : Xamarin.Forms.Shell
     {

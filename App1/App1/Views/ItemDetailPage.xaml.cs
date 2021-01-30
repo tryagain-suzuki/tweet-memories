@@ -1,8 +1,8 @@
-﻿using App1.ViewModels;
+﻿using TweetMemories.ViewModels;
 using System.ComponentModel;
 using Xamarin.Forms;
 
-namespace App1.Views
+namespace TweetMemories.Views
 {
     public partial class ItemDetailPage : ContentPage
     {

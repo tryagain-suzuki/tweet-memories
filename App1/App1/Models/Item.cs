@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace App1.Models
+namespace TweetMemories.Models
 {
     public class Item
     {

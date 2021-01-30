@@ -3,7 +3,7 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace App1.Views
+namespace TweetMemories.Views
 {
     public partial class AboutPage : ContentPage
     {

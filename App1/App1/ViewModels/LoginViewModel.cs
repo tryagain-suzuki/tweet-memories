@@ -1,10 +1,10 @@
-﻿using App1.Views;
+﻿using TweetMemories.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace App1.ViewModels
+namespace TweetMemories.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {

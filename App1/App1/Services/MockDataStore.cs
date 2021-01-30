@@ -1,10 +1,10 @@
-﻿using App1.Models;
+﻿using TweetMemories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace App1.Services
+namespace TweetMemories.Services
 {
     public class MockDataStore : IDataStore<Item>
     {
