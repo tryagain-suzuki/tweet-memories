@@ -20,22 +20,56 @@
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Item">
-                        <Label Text="{Binding Text}" 
-                            LineBreakMode="NoWrap" 
-                            Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" />
-                        <Label Text="{Binding Description}" 
-                            LineBreakMode="NoWrap"
-                            Style="{DynamicResource ListItemDetailTextStyle}"
-                            FontSize="13" />
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                NumberOfTapsRequired="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
-                                CommandParameter="{Binding .}">
-                            </TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
+                    <StackLayout Padding="10" x:DataType="model:Item" Orientation="Horizontal">
+                        <Frame
+                            Padding="0"
+                            CornerRadius="35"
+                            HeightRequest="40"
+                            MinimumHeightRequest="40"
+                            HorizontalOptions="Center"
+                            IsClippedToBounds="True"
+                            VerticalOptions="Start"
+                            WidthRequest="40"
+                            MinimumWidthRequest="40">
+                            <Image Aspect="Fill" Source="{Binding IconUrl}"  />
+                        </Frame>
+                        <StackLayout Margin="5, 0, 0, 0" Padding="0" >
+                            <!--<StackLayout Padding="0" Orientation="Horizontal" Spacing="0" HorizontalOptions="StartAndExpand" >
+                                <Label Text="{Binding Name}" 
+                                    LineBreakMode="TailTruncation" 
+                                    FontSize="13"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Start" />
+                                <Label Text="{Binding Id}" 
+                                    LineBreakMode="TailTruncation" 
+                                    FontSize="13"
+                                    HorizontalOptions="FillAndExpand" />
+                            </StackLayout>-->
+                            <Grid HorizontalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{Binding Name}" 
+                                       LineBreakMode="TailTruncation" 
+                                       FontSize="13"
+                                       FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="{Binding Id}" 
+                                       LineBreakMode="TailTruncation" 
+                                       FontSize="13"
+                                       HorizontalOptions="FillAndExpand" />
+                            </Grid>
+                            <Label Text="{Binding Description}" 
+                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                FontSize="13" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    NumberOfTapsRequired="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
+                                    CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

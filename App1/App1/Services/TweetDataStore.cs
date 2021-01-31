@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TweetMemories.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class TweetDataStore : IDataStore<Item>
     {
         readonly List<Item> items;
 
@@ -17,7 +17,7 @@ namespace TweetMemories.Services
 
         readonly CoreTweet.Tokens _token;
 
-        public MockDataStore()
+        public TweetDataStore()
         {
             _token = CoreTweet.Tokens.Create(ApiKey, ApiSecret, AccessToke, AccessTokeSecret);
             var status = _token.Statuses.HomeTimelineAsync(count => 50).Result;
@@ -26,23 +26,23 @@ namespace TweetMemories.Services
             {
                 items.Add(new Item
                 {
-                    Id = "@" + tweet.User.ScreenName,
-                    Name = tweet.User.Name,
+                    Id = tweet.User.Name,
+                    Name = tweet.User.ScreenName,
                     Description = tweet.Text,
-                    IconUrl = tweet.User.ProfileImageUrl
                 });
             }
 
-            //items = new List<Item>()
-            //{
-            //    new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木", Text = "First item", Description="This is an item description." },
-            //    new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい、だけどきっと押せないと思う", Text = "Second item", Description="This is an item description." },
-            //    new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい", Text = "Third item", Description="This is an item description." },
-            //    new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい", Text = "Fourth item", Description="This is an item description." },
-            //    new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい", Text = "Fifth item", Description="This is an item description." },
-            //    new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい", Text = "Sixth item", Description="This is an item description." }
-            //};
+            items = new List<Item>()
+            {
+                new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木", Text = "First item", Description="This is an item description." },
+                new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい、だけどきっと押せないと思う", Text = "Second item", Description="This is an item description." },
+                new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい", Text = "Third item", Description="This is an item description." },
+                new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい", Text = "Fourth item", Description="This is an item description." },
+                new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい", Text = "Fifth item", Description="This is an item description." },
+                new Item { Id = "@" + Guid.NewGuid().ToString(), Name = "TryAgain鈴木@やる気スイッチ押したい", Text = "Sixth item", Description="This is an item description." }
+            };
         }
+
 
         public async Task<bool> AddItemAsync(Item item)
         {
