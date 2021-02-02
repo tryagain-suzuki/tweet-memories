@@ -28,5 +28,12 @@ namespace TweetMemories.Views
             base.OnAppearing();
             _viewModel.OnAppearing();
         }
+
+        async void OnLikeClicked(object sender, EventArgs args)
+        {
+            var button = sender as ImageButton;
+            button.BorderWidth = 500;
+        }
+
     }
 }

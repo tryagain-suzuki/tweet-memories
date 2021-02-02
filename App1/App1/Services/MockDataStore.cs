@@ -10,26 +10,37 @@ namespace TweetMemories.Services
     {
         readonly List<Item> items;
 
-        const string ApiKey = "VaO4D9t9htBbJUs8WsjbEzqrN";
-        const string ApiSecret = "eFU4iRV3MqiucXThi43CnB9xs2tB6I2pAaIBy3vQVhcqVuqP0j";
-        const string AccessToke = "987883569883238400-2k2los20vWRCHUn03yIJVydOYGcSPm5";
-        const string AccessTokeSecret = "1rxUah1rdRRzNkMTD0cKDuFaCA3vC9M2D5mC2CC2J1hWs";
+        const string ApiKey = "cL3xwz4hYxBf3NaIugCEmMUzN";
+        const string ApiSecret = "EGkca9bfoLTn6S7YExHLMJ2hc6gstIOpdyMVz8zpsW8NZTnFQ1";
+        const string AccessToke = "987883569883238400-S2BOzTyRcQckMYiFOQ4jS8Uk02AlRFO";
+        const string AccessTokeSecret = "gm1ONHPiaLauNv67UXtUBUbmwW17gW8BFxPO8uZhhVAVD";
 
-        readonly CoreTweet.Tokens _token;
+        public readonly CoreTweet.Tokens _token;
 
         public MockDataStore()
         {
             _token = CoreTweet.Tokens.Create(ApiKey, ApiSecret, AccessToke, AccessTokeSecret);
-            var status = _token.Statuses.HomeTimelineAsync(count => 50).Result;
+            // var status = _token.Statuses.HomeTimelineAsync(count => 50).Result;
+            var status = _token.Statuses.UserTimeline(count => 50);
             items = new List<Item>();
             foreach (var tweet in status)
             {
                 items.Add(new Item
                 {
+                    TweetId = tweet.Id,
                     Id = "@" + tweet.User.ScreenName,
                     Name = tweet.User.Name,
                     Description = tweet.Text,
-                    IconUrl = tweet.User.ProfileImageUrl
+                    IconUrl = tweet.User.ProfileImageUrl,
+                    Like = tweet.FavoriteCount,
+                    Retweet = tweet.RetweetCount,
+                    Reply = _token.Search.Tweets(q => "to:" + tweet.User.ScreenName, since_id => tweet.Id).Count,
+                    IsLiked = tweet.IsFavorited,
+                    IsRetweeted = tweet.IsRetweeted,
+                    LikeBackgroundColor = (bool)tweet.IsFavorited ? "White" : "White",
+                    LikeColor = (bool)tweet.IsFavorited ? "#e0245e" : "Gray",
+                    RetweetBackgroundColor = (bool)tweet.IsRetweeted ? "White" : "White",
+                    RetweetColor = (bool)tweet.IsRetweeted ? "#17BF63" : "Gray",
                 });
             }
 

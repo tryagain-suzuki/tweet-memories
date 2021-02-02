@@ -34,18 +34,7 @@
                             <Image Aspect="Fill" Source="{Binding IconUrl}"  />
                         </Frame>
                         <StackLayout Margin="5, 0, 0, 0" Padding="0" >
-                            <!--<StackLayout Padding="0" Orientation="Horizontal" Spacing="0" HorizontalOptions="StartAndExpand" >
-                                <Label Text="{Binding Name}" 
-                                    LineBreakMode="TailTruncation" 
-                                    FontSize="13"
-                                    FontAttributes="Bold"
-                                    HorizontalOptions="Start" />
-                                <Label Text="{Binding Id}" 
-                                    LineBreakMode="TailTruncation" 
-                                    FontSize="13"
-                                    HorizontalOptions="FillAndExpand" />
-                            </StackLayout>-->
-                            <Grid HorizontalOptions="FillAndExpand">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -62,6 +51,60 @@
                             <Label Text="{Binding Description}" 
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <!--返信-->
+                                <StackLayout Grid.Column="0" Orientation="Horizontal">
+                                    <ImageButton x:Name="ReplyButton" BackgroundColor="White" WidthRequest="15" HeightRequest="15"
+                                                 VerticalOptions="Center" HorizontalOptions="Center">
+                                                 <ImageButton.Source>
+                                                 <FontImageSource FontFamily="{DynamicResource MaterialFontFamily}"
+                                                                  Glyph="&#xF0EDE;" Color="Gray" />
+                                                 </ImageButton.Source>
+                                    </ImageButton>
+                                    <Label Text="{Binding Reply}"
+                                           LineBreakMode="TailTruncation" 
+                                           FontSize="13"
+                                           HorizontalOptions="FillAndExpand" />
+                                </StackLayout>
+                                <!--リツイート-->
+                                <StackLayout Grid.Column="1" Orientation="Horizontal">
+                                    <ImageButton x:Name="RetweetButton" BackgroundColor="{Binding RetweetBackgroundColor}" WidthRequest="15" HeightRequest="15" Rotation="90"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=RetweetCommand}"		
+                                        CommandParameter="{Binding .}">
+                                        <ImageButton.Source>
+                                            <FontImageSource FontFamily="{DynamicResource MaterialFontFamily}"
+                                                                  Glyph="&#xF0456;" Color="{Binding RetweetColor}" />
+                                        </ImageButton.Source>
+                                    </ImageButton>
+                                    <Label Text="{Binding Retweet}" 
+                                           LineBreakMode="TailTruncation" 
+                                           FontSize="13"
+                                           HorizontalOptions="FillAndExpand" 
+                                           TextColor="{Binding RetweetColor}" />
+                                </StackLayout>
+                                <!--いいね-->
+                                <StackLayout Grid.Column="2" Orientation="Horizontal">
+                                    <ImageButton x:Name="LikeButton" BackgroundColor="{Binding LikeBackgroundColor}" WidthRequest="15" HeightRequest="15"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=LikeCommand}"		
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnLikeClicked">
+                                        <ImageButton.Source>
+                                            <FontImageSource FontFamily="{DynamicResource MaterialFontFamily}"
+                                                                  Glyph="&#xF02D1;" Color="{Binding LikeColor}" />
+                                        </ImageButton.Source>
+                                    </ImageButton>
+                                    <Label Text="{Binding Like}"
+                                           LineBreakMode="TailTruncation" 
+                                           FontSize="13"
+                                           HorizontalOptions="FillAndExpand"
+                                           TextColor="{Binding LikeColor}" />
+                                </StackLayout>
+                            </Grid>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer 
                                     NumberOfTapsRequired="1"
