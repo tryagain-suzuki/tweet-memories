@@ -20,6 +20,7 @@ namespace TweetMemories.Services
         public MockDataStore()
         {
             _token = CoreTweet.Tokens.Create(ApiKey, ApiSecret, AccessToke, AccessTokeSecret);
+            
             // var status = _token.Statuses.HomeTimelineAsync(count => 50).Result;
             var status = _token.Statuses.UserTimeline(count => 50);
             items = new List<Item>();
@@ -34,7 +35,7 @@ namespace TweetMemories.Services
                     IconUrl = tweet.User.ProfileImageUrl,
                     Like = tweet.FavoriteCount,
                     Retweet = tweet.RetweetCount,
-                    Reply = _token.Search.Tweets(q => "to:" + tweet.User.ScreenName, since_id => tweet.Id).Count,
+                    Reply = _token.Search.Tweets(q => "to:" + tweet.User.ScreenName, since_id => tweet.Id).Where(w => w.InReplyToStatusId == tweet.Id).Count(),
                     IsLiked = tweet.IsFavorited,
                     IsRetweeted = tweet.IsRetweeted,
                     LikeBackgroundColor = (bool)tweet.IsFavorited ? "White" : "White",
@@ -78,14 +79,40 @@ namespace TweetMemories.Services
 
             return await Task.FromResult(true);
         }
-
-        public async Task<Item> GetItemAsync(string id)
+        public async Task<Item> GetItemAsync(string itemId)
         {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(items.FirstOrDefault(s => s.Id == itemId));
+        }
+
+        public async Task<Item> GetItemAsync(long tweetId)
+        {
+            return await Task.FromResult(items.FirstOrDefault(s => s.TweetId == tweetId));
         }
 
         public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
         {
+            //items.Clear();
+            //var status = _token.Statuses.UserTimeline(count => 50);
+            //foreach (var tweet in status)
+            //{
+            //    items.Add(new Item
+            //    {
+            //        TweetId = tweet.Id,
+            //        Id = "@" + tweet.User.ScreenName,
+            //        Name = tweet.User.Name,
+            //        Description = tweet.Text,
+            //        IconUrl = tweet.User.ProfileImageUrl,
+            //        Like = tweet.FavoriteCount,
+            //        Retweet = tweet.RetweetCount,
+            //        Reply = _token.Search.Tweets(q => "to:" + tweet.User.ScreenName, since_id => tweet.Id).Where(w => w.InReplyToStatusId == tweet.Id).Count(),
+            //        IsLiked = tweet.IsFavorited,
+            //        IsRetweeted = tweet.IsRetweeted,
+            //        LikeBackgroundColor = (bool)tweet.IsFavorited ? "White" : "White",
+            //        LikeColor = (bool)tweet.IsFavorited ? "#e0245e" : "Gray",
+            //        RetweetBackgroundColor = (bool)tweet.IsRetweeted ? "White" : "White",
+            //        RetweetColor = (bool)tweet.IsRetweeted ? "#17BF63" : "Gray",
+            //    });
+            //}
             return await Task.FromResult(items);
         }
     }

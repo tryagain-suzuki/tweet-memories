@@ -14,6 +14,7 @@ namespace TweetMemories
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<MyUserDataStore>();
             MainPage = new AppShell();
         }
 

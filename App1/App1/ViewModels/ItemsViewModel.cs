@@ -29,10 +29,9 @@ namespace TweetMemories.ViewModels
 
             AddItemCommand = new Command(OnAddItem);
 
-
-
             LikeCommand = new Command<Item>(OnLike);
             RetweetCommand = new Command<Item>(OnRetweet);
+            ReplyCommand = new Command<Item>(OnReply);
 
             _token = CoreTweet.Tokens.Create(ApiKey, ApiSecret, AccessToke, AccessTokeSecret);
 
@@ -99,16 +98,13 @@ namespace TweetMemories.ViewModels
 
         public readonly CoreTweet.Tokens _token;
 
-        public string LikeColor { get; set; } = "Gray";
-        public string LikeBackgroudColor { get; set; } = "White";
-
         public Command<Item> LikeCommand { get; }
         public Command<Item> RetweetCommand { get; }
+        public Command<Item> ReplyCommand { get; }
 
 
         private async void OnLike(Item item)
         {
-            IsBusy = true;
             try
             {
                 if (!(bool)Items[Items.IndexOf(item)].IsLiked)
@@ -129,16 +125,11 @@ namespace TweetMemories.ViewModels
             {
                 Debug.WriteLine(ex);
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
 
         private async void OnRetweet(Item item)
         {
-            IsBusy = true;
             try
             {
                 if (!(bool)Items[Items.IndexOf(item)].IsRetweeted)
@@ -150,9 +141,9 @@ namespace TweetMemories.ViewModels
                 }
                 else
                 {
-                    Items[Items.IndexOf(item)].IsLiked = false;
-                    Items[Items.IndexOf(item)].LikeColor = "Gray";
-                    Items[Items.IndexOf(item)].Like -= 1;
+                    Items[Items.IndexOf(item)].IsRetweeted = false;
+                    Items[Items.IndexOf(item)].RetweetColor = "Gray";
+                    Items[Items.IndexOf(item)].Retweet -= 1;
                     await _token.Statuses.UnretweetAsync(item.TweetId);
                 }
             }
@@ -160,10 +151,15 @@ namespace TweetMemories.ViewModels
             {
                 Debug.WriteLine(ex);
             }
-            finally
-            {
-                IsBusy = false;
-            }
+        }
+
+        async void OnReply(Item item)
+        {
+            if (item == null)
+                return;
+
+            // This will push the ItemDetailPage onto the navigation stack
+            await Shell.Current.GoToAsync($"{nameof(ReplyPage)}?{nameof(ReplyViewModel.TweetId)}={item.TweetId}");
         }
 
     }

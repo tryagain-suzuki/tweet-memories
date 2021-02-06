@@ -60,7 +60,9 @@
                                 <!--返信-->
                                 <StackLayout Grid.Column="0" Orientation="Horizontal">
                                     <ImageButton x:Name="ReplyButton" BackgroundColor="White" WidthRequest="15" HeightRequest="15"
-                                                 VerticalOptions="Center" HorizontalOptions="Center">
+                                                 VerticalOptions="Center" HorizontalOptions="Center"
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ReplyCommand}"		
+                                                 CommandParameter="{Binding .}">
                                                  <ImageButton.Source>
                                                  <FontImageSource FontFamily="{DynamicResource MaterialFontFamily}"
                                                                   Glyph="&#xF0EDE;" Color="Gray" />

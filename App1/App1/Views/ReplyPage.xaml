@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TweetMemories.Views.ReplyPage"
+             Title="{Binding Title}">
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="返信" Command="{Binding ReplyCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        
+        <!--送信元のツイート-->
+        <StackLayout Padding="10" Orientation="Horizontal">
+            <Frame
+                Padding="0"
+                CornerRadius="35"
+                HeightRequest="40"
+                MinimumHeightRequest="40"
+                HorizontalOptions="Center"
+                IsClippedToBounds="True"
+                VerticalOptions="Start"
+                WidthRequest="40"
+                MinimumWidthRequest="40">
+                <Image Aspect="Fill" Source="{Binding IconUrl}"  />
+            </Frame>
+            <StackLayout Margin="5, 0, 0, -15" Padding="0" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="{Binding Name}" 
+                            LineBreakMode="TailTruncation" 
+                            FontSize="13"
+                            FontAttributes="Bold" />
+                    <Label Grid.Column="1" Text="{Binding Id}" 
+                            LineBreakMode="TailTruncation" 
+                            FontSize="13"
+                            HorizontalOptions="FillAndExpand" />
+                </Grid>
+                <Label Text="{Binding Description}" 
+                        Style="{DynamicResource ListItemDetailTextStyle}"
+                        FontSize="13" />
+            </StackLayout>
+        </StackLayout>
+        
+        <!--送信先-->
+        <Label Text="{Binding Id, StringFormat='返信先: {0}さん'}" 
+                Margin="60, 10, 0, 0"
+                FontSize="13"
+                HorizontalOptions="FillAndExpand" />
+        
+        <!--リプライの枠-->
+        <StackLayout Padding="10, -10" Orientation="Horizontal">            
+            <Frame
+                Padding="0"
+                CornerRadius="35"
+                HeightRequest="40"
+                MinimumHeightRequest="40"
+                HorizontalOptions="Center"
+                IsClippedToBounds="True"
+                VerticalOptions="Start"
+                WidthRequest="40"
+                MinimumWidthRequest="40">
+                <Image Aspect="Fill" Source="{Binding IconUrl}"  />
+            </Frame>
+            <Grid Margin="0, 0, 0, 0" Padding="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.0*" />
+                </Grid.ColumnDefinitions>
+                <Editor 
+                    VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+                    HeightRequest="1000" WidthRequest="400"
+                    Text="{Binding Tweet, Mode=TwoWay}" 
+                    AutoSize="TextChanges"
+                    MaxLength="140"
+                    FontSize="Medium" 
+                    Placeholder="返信をツイート" />
+             </Grid>
+         </StackLayout>
+        
+    </StackLayout>
+
+</ContentPage>
