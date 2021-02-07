@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using TweetMemories.Services;
+using System.Collections.Generic;
 
 namespace TweetMemories.ViewModels
 {
@@ -90,6 +91,9 @@ namespace TweetMemories.ViewModels
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
         }
 
+        private IMessageBoxService _messageBoxService => DependencyService.Get<IMessageBoxService>();
+
+
 
         const string ApiKey = "cL3xwz4hYxBf3NaIugCEmMUzN";
         const string ApiSecret = "EGkca9bfoLTn6S7YExHLMJ2hc6gstIOpdyMVz8zpsW8NZTnFQ1";
@@ -132,19 +136,33 @@ namespace TweetMemories.ViewModels
         {
             try
             {
+                List<string> retweetText = new List<string> { "リツイート", "リツイートを取り消す" };
+                string retweetOnOff = null;
                 if (!(bool)Items[Items.IndexOf(item)].IsRetweeted)
                 {
-                    Items[Items.IndexOf(item)].IsRetweeted = true;
-                    Items[Items.IndexOf(item)].RetweetColor = "#17BF63";
-                    Items[Items.IndexOf(item)].Retweet += 1;
-                    await _token.Statuses.RetweetAsync(item.TweetId);
+                    retweetOnOff = "リツイート";
                 }
                 else
                 {
-                    Items[Items.IndexOf(item)].IsRetweeted = false;
-                    Items[Items.IndexOf(item)].RetweetColor = "Gray";
-                    Items[Items.IndexOf(item)].Retweet -= 1;
-                    await _token.Statuses.UnretweetAsync(item.TweetId);
+                    retweetOnOff = "リツイートを取り消す";
+                }
+                var action = await _messageBoxService.ShowActionSheet(null, null, null, new string[] { retweetOnOff, "引用ツイート" });
+
+                if (retweetText.Contains(action)) { 
+                    if (!(bool)Items[Items.IndexOf(item)].IsRetweeted)
+                    {
+                        Items[Items.IndexOf(item)].IsRetweeted = true;
+                        Items[Items.IndexOf(item)].RetweetColor = "#17BF63";
+                        Items[Items.IndexOf(item)].Retweet += 1;
+                        await _token.Statuses.RetweetAsync(item.TweetId);
+                    }
+                    else
+                    {
+                        Items[Items.IndexOf(item)].IsRetweeted = false;
+                        Items[Items.IndexOf(item)].RetweetColor = "Gray";
+                        Items[Items.IndexOf(item)].Retweet -= 1;
+                        await _token.Statuses.UnretweetAsync(item.TweetId);
+                    }
                 }
             }
             catch (Exception ex)

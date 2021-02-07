@@ -15,6 +15,7 @@ namespace TweetMemories
 
             DependencyService.Register<MockDataStore>();
             DependencyService.Register<MyUserDataStore>();
+            DependencyService.Register<IMessageBoxService, MessageBoxService>();
             MainPage = new AppShell();
         }
 
